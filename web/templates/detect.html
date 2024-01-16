@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="assets/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon.png">
+    <title>FINGERSPELLING</title>
+
+</head>
+<body id="container">
+    <div class="work">
+        <div class="navbarhome">
+            <div class="col-lg-4 d-flex align-items-center">
+                <div>
+                    <img src="assets/img/logoD.png" id="logo" alt="" style="max-width: 60%;">
+                </div>       
+            </div>
+                
+            <div class="col-lg-7 d-flex justify-content-end align-items-end"  style="display: flex; justify-content: end;align-items: center;">
+                <nav>
+                    <ul class="navigation animate" style="margin-top: 10px;">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#modal-about-us">Project</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#modal-our-works">Team Members</a></li>
+                        <li><a href="" data-toggle="modal" data-target="#modal-services">Development</a></li>                      
+                    </ul>
+                    <!--end navigation-->
+                </nav>
+                
+            </div>
+            <div class="col-lg-1 d-flex align-items-center" style="margin-top: 10px;">
+                <div class="brand animate">
+                    <div id="theme" class="fas fa-moon"></div>
+                </div>
+                
+            </div>
+                <!-- <div class="col-lg-2 col-xl-7">
+                    <div class="brand animate">
+                        <div id="theme" class="fas fa-moon"></div>
+                    </div>
+                    
+                </div> -->
+            
+        </div>
+    </div>
+            
+            
+
+    <div class="popup" style="display: none;">
+        <div class="popup-content">
+            <h2>GUIDE</h2>
+            <ul>
+                <li>Make sure your hand is in the frame</li>
+                <li>Encourage one person to appear in front of the camera</li>
+                <li>Speed: one word per second</li>
+                <li>Please import MP4 file</li>
+                <li>Clean button is for deleting</li>
+            </ul>
+            <div class="popup-exit">
+                <i class="fa-regular fa-circle-xmark"></i>
+            </div>
+                
+            
+        </div>
+        
+    </div>
+    
+
+
+    <!-- <div class="container"> -->
+    <div class="videodetect">
+        <div class="row">
+            <div class="col-lg-7 d-flex" style="align-items: center;">
+                <video id="user-uploaded-video" autoplay style="width: 100%;display: none;margin-top: 45px;"></video>
+                <img  id="video-img"  src="{{ url_for('video_feed') }}" class="flipped-video" autoplay style="width: 88%">
+            </div>  
+            <div class="col-lg-5 d-flex flex-column align-items-center">
+                <div class="d-flex" style="justify-content: center; margin-bottom: 10px;">
+                    <div class="displayfps">
+                        <p id="fps">FPS: </p>
+                        <p id="pc">PC: </p>
+                    </div>
+                    <div class="button-container">
+                        <button class="home-button" onclick="hideVideoFeed()">
+                            <i class="fa-solid fa-circle"  style="color: #ff0000;"></i>
+                            Live Detect
+                        </button>    
+                        <button class="home-button">
+                            <i class="fa-solid fa-book"></i>
+                            Guide
+                        </button>
+                        <button class="home-button"  data-toggle="modal" data-target="#importModal">
+                            <i class="fa-solid fa-folder"></i>
+                            Import
+                        </button>
+                        <button id="clear-button" class="home-button" style="margin-right: 0px;">
+                            <i class="fa-solid fa-broom-ball"></i>
+                            Clean
+                        </button>
+                        
+                    </div>
+                </div>
+                <textarea readonly name="translate" id="result-textarea" cols="30" rows="25"></textarea>
+            </div>      
+        </div>
+        <!-- <video id="video" class="flipped-video" autoplay style="width: 100%"></video> -->
+        <!-- <img id="detect-img" src="assets/img/maxresdefault.jpg" style="width: 70%;" alt=""> -->
+        <!-- <div id="result-frame">
+        </div> -->
+    </div>
+    <!-- </div> -->
+
+
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"  style="padding: 20px 20px;">
+                    <h5 class="modal-title" id="importModalLabel"><span>Import Video</span></h5>
+                </div>
+                <div class="modal-body" style="padding: 0px 20px; font-size: 1.2rem; text-align: center;">
+                    <input type="file" id="file_input" accept="video/*">
+                    <!-- <p>Tính năng này đang trong giai đoạn phát triển và sẽ cập nhật sau</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="import btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="import btn btn-primary" id="upload_button" style="margin-top: 0px;">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-about-us" tabindex="-1" role="dialog" aria-labelledby="modal-about-us-label">
+        <div class="modal-dialog" role="document">
+            <div class="container">
+                <div class="modal-content">
+                    <div class="modal-header" data-background-color="#61dfff">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="modal-about-us-label">Our Project</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-7 col-sm-7">
+                                <section>
+                                    <h3>Problem</h3>
+                                    <p>
+                                        Currently more than 1.5 billion people (nearly 20% of the global population) live with hearing loss </p>
+                                        
+                                    <p>70 million Deaf people around the world who use sign language to communicate </p> 
+                                    <p>AI solutions include automated speech recognition (ASR) and machine translation, These technologies are often not accessible to them.</p> 
+                                    
+                                    
+                                </section>
+                                <section>
+                                    <h3>Solve</h3>
+                                    <!-- <div class="skill">
+                                        <h4>Webdesign</h4>
+                                        <aside>80%</aside>
+                                        <figure class="bar">
+                                            <div class="bar-active width-80"></div>
+                                            <div class="bar-background"></div>
+                                        </figure>
+                                    </div>
+                                   
+                                    <div class="skill">
+                                        <h4>Photography</h4>
+                                        <aside>100%</aside>
+                                        <figure class="bar">
+                                            <div class="bar-active width-100"></div>
+                                            <div class="bar-background"></div>
+                                        </figure>
+                                    </div>
+                                   
+                                    <div class="skill">
+                                        <h4>Marketing</h4>
+                                        <aside>60%</aside>
+                                        <figure class="bar">
+                                            <div class="bar-active width-60"></div>
+                                            <div class="bar-background"></div>
+                                        </figure>
+                                    </div> -->
+                                    <p>Fingerspelling uses hand shapes that represent individual letters to convey words</p>
+    
+                                    <p>Develop a system that recognizes sign language through fingers.</p>
+                                </section>
+                            </div>
+                            <!--end col-md-7-->
+                            <div class="col-md-5 col-sm-5">
+                                <section>
+                                    <h3>Target</h3>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="person">
+                                                <div class="image">
+                                                    <i class="fa-solid fa-hands-asl-interpreting"></i>
+                                                </div>
+                                                <h4>Translate</h4>
+                                                <h5>For deaf mute</h5>
+                                                
+                                            </div>
+                                            <!--end person-->
+                                        </div>
+                                        <!--end col-md-6-->
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="person">
+                                                <div class="image">
+                                                    <i class="fa-solid fa-globe"></i>
+                                                </div>
+                                                <h4>Website</h4>
+                                                <h5>Application</h5>
+                                                
+                                            </div>
+                                            <!--end person-->
+                                        </div>
+                                        <!--end col-md-6-->
+                                    </div>
+                                    <!--end row-->
+                                </section>
+                            </div>
+                            <!--end col-md-4-->
+                            
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end modal-body-->
+                </div>
+                <!--end modal-content-->
+            </div>
+            <!--end container-->
+        </div>
+        <!--end modal-dialog-->
+    </div>
+    <!--end #modal-about-us-->
+    
+    <!-- Modal Our Works -->
+    <div class="modal fade" id="modal-our-works" tabindex="-1" role="dialog" aria-labelledby="modal-our-works-label">
+        <div class="modal-dialog" role="document">
+            <div class="container">
+                <div class="modal-content">
+                    <div class="modal-header" data-background-color="#8dff8b">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="modal-our-works-label">Team Member</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Nguyễn Sơn Tùng</h4>
+                                        <h5>Model</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/tung_ng.jpg" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Vũ Hoàng Sơn Hải</h4>
+                                        <h5>Model</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/coursera.png" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Phan Huỳnh Thanh Bình</h4>
+                                        <h5>Web design</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/binh_andrew.JPG" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Phạm Đức Hồng Đức</h4>
+                                        <h5>Data</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/PDHD.jpg" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Đàm Nguyễn Quỳnh Hoa</h4>
+                                        <h5>Data & Model</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/DNQH.jpg" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <a href="https://www.facebook.com/phanhuynhthanhbinh/" target="_blank" class="work">
+                                    <div class="description">
+                                        <h4>Hoàng Thanh Lâm</h4>
+                                        <h5>Data</h5>
+                                    </div>
+                                    <!--end description-->
+                                    <div class="image">
+                                        <div class="bg-transfer"><img src="assets/img/HTL.jpg" alt=""></div>
+                                    </div>
+                                </a>
+                                <!--end work-->
+                            </div>
+                            <!--end col-md-4-->
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end modal-body-->
+                </div>
+                <!--end modal-content-->
+            </div>
+            <!--end container-->
+        </div>
+        <!--end modal-dialog-->
+    </div>
+    <!--end #modal-our-works-->
+    
+    <!-- Modal Services -->
+    <div class="modal fade" id="modal-services" tabindex="-1" role="dialog" aria-labelledby="modal-services-label">
+        <div class="modal-dialog" role="document">
+            <div class="container">
+                <div class="modal-content">
+                    <div class="modal-header" data-background-color="#ff6767">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="modal-services-label">Strategies</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </div>
+                                    <h3>Planing</h3>
+                                    <p>Specify project goals, audience, and website purpose. Define desired features and functionalities.</p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-coins"></i>
+                                    </div>
+                                    <h3>Data Collection</h3>
+                                    <p>Select suitable data for the project. This could include sign language videos, phrases, and other relevant data.
+                                    </p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-gears"></i>
+                                    </div>
+                                    <h3>Data Processing</h3>
+                                    <p>Perform exploratory data analysis on the collected data. Identify important landmarks in the sign language videos.</p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-microchip"></i>
+                                    </div>
+                                    <h3>Modeling</h3>
+                                    <p>Select an appropriate model for the project. Build the model and set it up for training. Train the model on the preprocessed data.</p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-square-poll-vertical"></i>
+                                    </div>
+                                    <h3>Evaluation</h3>
+                                    <p>Evaluate the performance of the model. Tune the hyperparameters of the model to improve its performance.</p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                            <div class="col-md-4 col-sm-4">
+                                <div class="box">
+                                    <div class="iconfont">
+                                        <i class="fa-solid fa-laptop-code"></i>
+                                    </div>
+                                    <h3>Deploy Application</h3>
+                                    <p>Develop a Sign Language website with a friendly user interface. Integrate the trained model with the website. Test the website and make sure it is working as expected.</p>
+                                </div>
+                                <!--end box-->
+                            </div>
+                            <!--end col-md-4-->
+                        </div>
+                    </div>
+                    <!--end modal-body-->
+                </div>
+                <!--end modal-content-->
+            </div>
+            <!--end container-->
+        </div>
+        <!--end modal-dialog-->
+    </div>
+    <!--end #modal-services-->
+    
+    <!-- Modal Contact Us -->
+    <div class="modal fade" id="modal-contact-us" tabindex="-1" role="dialog" aria-labelledby="modal-contact-us-label">
+        <div class="modal-dialog" role="document">
+            <div class="container">
+                <div class="modal-content">
+                    <div class="modal-header" data-background-color="#ffe858">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="modal-contact-us-label">Services</h2>
+                    </div>
+                    <div id="map"></div>
+                    <div class="modal-body">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3">
+                                    <h3>Address</h3>
+                                    <address>
+                                        4758 Nancy Street<br>
+                                        +1 919-571-2528<br>
+                                        <a href="mailto:hello@example.com">hello@example.com</a>
+                                    </address>
+                                </div>
+                                <!--end col-md-3-->
+                                <div class="col-md-3 col-sm-3">
+                                    <h3>Social</h3>
+                                    <figure><a href="" class="icon"><i class="fa fa-facebook"></i>Facebook</a></figure>
+                                    <figure><a href="" class="icon"><i class="fa fa-twitter"></i>Twitter</a></figure>
+                                    <figure><a href="" class="icon"><i class="fa fa-youtube"></i>Youtube</a></figure>
+                                    <figure><a href="" class="icon"><i class="fa fa-pinterest"></i>Pinterest</a></figure>
+                                </div>
+                                <!--end col-md-3-->
+                                <div class="col-md-6 col-sm-6">
+                                    <h3>Contact Form</h3>
+                                    <form id="form-contact" method="post" class="form clearfix inputs-underline">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="form-contact-name" name="name" placeholder="Your Name" required>
+                                                </div>
+                                                <!--end form-group -->
+                                            </div>
+                                            <!--end col-md-6 col-sm-6 -->
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" id="form-contact-email" name="email" placeholder="Your Email" required>
+                                                </div>
+                                                <!--end form-group -->
+                                            </div>
+                                            <!--end col-md-6 col-sm-6 -->
+                                        </div>
+                                        <!--end row -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" id="form-contact-message" rows="5" name="message" placeholder="Your Message" required></textarea>
+                                                </div>
+                                                <!--end form-group -->
+                                            </div>
+                                            <!--end col-md-12 -->
+                                        </div>
+                                        <!--end row -->
+                                        <div class="form-group clearfix">
+                                            <button type="submit" class="btn pull-right btn-default btn-framed btn-rounded" id="form-contact-submit">Send a Message</button>
+                                        </div>
+                                        <!--end form-group -->
+                                        <div class="form-contact-status"></div>
+                                    </form>
+                                    <!--end form-contact -->
+                                </div>
+                                <!--end col-md-6-->
+                            </div>
+                        </section>
+                    </div>
+                    <!--end modal-body-->
+                </div>
+                <!--end modal-content-->
+            </div>
+            <!--end container-->
+        </div>
+        <!--end modal-dialog-->
+    </div>
+    <!--end #modal-contact-us-->
+
+    
+<script  src="assets/js/jquery-2.2.1.min.js"></script>
+<script  src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script  src="assets/js/jquery.validate.min.js"></script>
+<script  src="assets/js/jquery.magnific-popup.min.js"></script>
+<script  src="assets/js/jquery.plugin.min.js"></script>
+<script  src="assets/js/jquery.parallax.min.js"></script>
+<script  src="assets/js/custom.js"></script>
+<script  src="assets/js/designweb.js"></script>
+<script  src="assets/js/detect.js"></script>
+<script  src="assets/js/script.js"></script>
+<script  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script  src="https://kit.fontawesome.com/6dfefe65c1.js" crossorigin="anonymous"></script>
+<script  src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</body>
