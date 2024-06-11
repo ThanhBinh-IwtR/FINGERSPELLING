@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sn
 import tensorflow as tf
-import tensorflow_addons as tfa
-
+from tensorflow import keras
 
 import glob
 import sys
@@ -20,7 +19,7 @@ import json
 SEED = 42
 # Number of Frames to resize recording to
 N_TARGET_FRAMES = 128
-fol_name = './Project/statics'
+fol_name = './project/statics'
 with open(fol_name+'/character_to_prediction_index.json') as json_file:
     CHAR2ORD = json.load(json_file)
 SOS_TOKEN = len(CHAR2ORD) + 1 # Start Of Sentence
@@ -419,8 +418,14 @@ def get_model():
     loss = scce_with_ls
 
     # Adam Optimizer
-    optimizer = tfa.optimizers.RectifiedAdam(sma_threshold=4)
-    optimizer = tfa.optimizers.Lookahead(optimizer, sync_period=5)
+    initial_learning_rate = 0.1
+    lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate,
+        decay_steps=10000,
+        decay_rate=0.96,
+        staircase=True)
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=lr_schedule)
 
     # TopK Metrics
     metrics = [
@@ -432,7 +437,7 @@ def get_model():
         loss=loss,
         optimizer=optimizer,
         metrics=metrics,
-        loss_weights=loss_weights,
+        loss_weights=loss_weights.tolist(),
     )
 
     return model

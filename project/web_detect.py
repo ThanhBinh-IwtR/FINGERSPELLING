@@ -4,9 +4,9 @@ import mediapipe as mp
 import numpy as np
 from Transformers_Landmark import get_model,predict, PreprocessLayer
 model = get_model()
-model.load_weights('./Project/weight/model.h5')
+model.load_weights('./project/weight/model.h5')
 # Khởi tạo Holistic
-start = predict(model,np.load('./Project/statics/start_up.npy'))
+start = predict(model,np.load('./project/statics/start_up.npy'))
 preprocess = PreprocessLayer()
 sequence =  []
 all_res = []

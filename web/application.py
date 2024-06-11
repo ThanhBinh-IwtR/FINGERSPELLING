@@ -4,7 +4,6 @@ import time
 from flask import Flask, render_template,Response, jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
 import tensorflow as tf
-import tensorflow_addons as tfa
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -12,15 +11,15 @@ import os
 import sys
 # current_dir = os.path.dirname(os.path.abspath(__file__))
 # web_detect_dir = os.path.join(current_dir, 'web_detect')
-sys.path.insert(0, "D:/AI/DPLS2L/S2L/Project")
+sys.path.insert(0, "./project")
 
 import style_mediapipe
 import Transformers_Landmark
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 # ---------------------------------- init ---------------------------------- 
 model = Transformers_Landmark.get_model()
-model.load_weights('./Project/weight/model.h5')
-start = Transformers_Landmark.predict(model,np.load('./Project/statics/start_up.npy'))
+model.load_weights('./project/weight/model.h5')
+start = Transformers_Landmark.predict(model,np.load('./project/statics/start_up.npy'))
 preprocess = Transformers_Landmark.PreprocessLayer()
 all_res = []
 n_frame = 0
